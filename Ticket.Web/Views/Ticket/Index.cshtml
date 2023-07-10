@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Ticket.Domain.DomainModels.TicketProd>
+
+@{
+    ViewData["Title"] = "Index";
+    var selectedDate = Context.Request.Query["selectedDate"];
+}
+
+<h1>Index</h1>
+ <form asp-action="exportToExcel">
+        <div class="form-group">
+            <label for="Genre">Enter Genre</label>
+            <input type="text" id="Genre" name="Genre" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Export to Excel</button>
+ </form>
+<form method="get" action="@Url.Action("Index")">
+    <div class="form-group">
+        <label>Date:</label>
+        <input type="date" name="selectedDate" value="@selectedDate" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        @if (!string.IsNullOrEmpty(selectedDate))
+        {
+            <a href="@Url.Action("Index")" class="btn btn-secondary">Clear</a>
+        }
+    </div>
+    
+</form>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+    <a asp-action="Create">Create New</a>
+</p>}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketProjectionRoom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketRating)
+            </th>
+            <th>
+                Movie
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketProjectionRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketRating)
+            </td>
+            <td>
+                @if (item.TicketInMovie != null && item.TicketInMovie.Any())
+                {
+                    @Html.DisplayFor(modelItem => item.TicketInMovie.First().Movie.Title)
+                }
+            </td>
+            @if (User.Identity.IsAuthenticated)
+                {
+            <td>
+
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a asp-action="AddTicketToCart" asp-route-id="@item.Id">Add to Cart</a>
+            </td>}
+        </tr>
+}
+    </tbody>
+</table>

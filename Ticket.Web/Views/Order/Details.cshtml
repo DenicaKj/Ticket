@@ -1,0 +1,45 @@
+﻿@model Ticket.Domain.DomainModels.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tickets
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+   
+        <tr> 
+        @foreach(var t in Model.TicketInOrders.ToList()){
+             <td>
+                    @t.Ticket.TicketNumber
+            </td>
+            <td>
+                    @t.Ticket.TicketPrice
+            </td>
+            <td>
+                    @t.Quantity
+            </td>
+        }
+            
+        </tr>
+
+    </tbody>
+</table>
+<div>
+   
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,40 @@
+﻿@model List<TicketApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<TicketApplicationUser> UserManager
+
+<h1>User Roles</h1>
+
+    @using (Html.BeginForm("ImportUsers", "Role", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" required />
+        <input type="submit" value="Import Users" />
+    }
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @foreach (var role in await UserManager.GetRolesAsync(user))
+                    {
+                        <span class="badge badge-primary">@role</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-userId="@user.Id" class="btn btn-primary">Edit Role</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

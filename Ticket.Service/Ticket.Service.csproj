@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.5.0" />
+    <PackageReference Include="MimeKit" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ticket.Domain\Ticket.Domain.csproj" />
+    <ProjectReference Include="..\Ticket.Repository\Ticket.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
